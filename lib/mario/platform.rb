@@ -74,7 +74,7 @@ module Mario
       end
 
       def forced=(val)
-        logger.warn("Mario::Platform.os will now report as #{val}")
+        logger.warn("Mario::Platform.os will now report as '#{val}'")
         @@forced=val
       end
       

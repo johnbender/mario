@@ -20,6 +20,10 @@ class TestPlatform < Test::Unit::TestCase
         assert result =~ /^"/
         assert result =~ /"$/
       end
+
+      should "not have spaces escaped" do
+        assert !Mario::Toolbelt.shell_escape_path( 'a b' ).include?('\\')
+      end
     end
   end
 end
