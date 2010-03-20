@@ -16,18 +16,30 @@ module Mario
           :win7 => 'mingw' }
       end
 
+      # A hash of os target internel names and partial strings that will be checked against Config::CONFIG['target_os']
+      # 
+      # @return [Hash]
       def targets
         nix_group.merge(windows_group)
       end
 
+      # Checks if the current platform is linux
+      # 
+      # @return [true, false]
       def linux? 
         check_os :linux
       end
       
+      # Checks if the current platform is osx
+      # 
+      # @return [true, false]
       def osx?
         check_os :osx 
       end
 
+      # Checks if the current platform is solaris
+      # 
+      # @return [true, false]
       def solaris?
         check_os :solaris
       end
