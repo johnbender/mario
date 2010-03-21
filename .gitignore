@@ -24,3 +24,5 @@ Gemfile
 Gemfile.lock
 .bundle
 *.gem
+doc
+.yardoc
