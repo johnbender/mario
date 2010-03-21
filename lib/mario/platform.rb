@@ -41,7 +41,7 @@ module Mario
       def solaris?
         check Solaris
       end
-      
+
       def bsd?
         check BSD
       end
@@ -75,19 +75,22 @@ module Mario
 
       alias_method :osx?, :darwin?
 
-      def os
-        @@forced.target || Config::CONFIG['target_os']
+      # Uses the forced os class if provided otherwise uses the target_os rbconfig hash element
+      #
+      # @return [String]
+      def target_os
+        @@forced ? @@forced.target : Config::CONFIG['target_os']
       end
 
       def check(klass)
-        os.downcase.include?(klass.target)
+        target_os.downcase.include?(klass.target)
       end
 
       def forced=(klass)
         @@current=nil
         @@forced=klass
         logger.warn(<<-msg)
-Mario::Platform.os will now report as '#{os}' and #{klass} will be used for all functionality including operating system checks and hat based functionality (See Mario::Hats for more information)
+Mario::Platform.target_os will now report as '#{target_os}' and #{klass} will be used for all functionality including operating system checks and hat based functionality (See Mario::Hats for more information)
 msg
 
       end

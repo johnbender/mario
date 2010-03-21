@@ -1,8 +1,17 @@
 require 'helper'
 
 class TestPlatform < Test::Unit::TestCase
-  
   context "Mario platforms" do
+    context 'on any platform' do
+      setup do
+        Mario::Platform.forced = nil
+      end
+
+      should "find at least one os representing a class" do
+        assert Mario::Platform.check_group(Mario::Platform.targets)
+      end
+    end
+
     context 'when testing for *nix' do
       should 'return true for all known variants' do
         Mario::Platform::nix_group.each do |klass|
@@ -35,12 +44,12 @@ class TestPlatform < Test::Unit::TestCase
 
     context 'when checking any os with abnormal target strings' do
       should 'handle extranious characters' do
-        Mario::Platform.expects(:os).twice.returns("12%#{first_os_klass.target}&%$")
+        Mario::Platform.expects(:target_os).twice.returns("12%#{first_os_klass.target}&%$")
         assert check_nix first_os_klass
       end
 
       should 'handle capitals' do
-        Mario::Platform.expects(:os).twice.returns(first_os_klass.target.upcase)
+        Mario::Platform.expects(:target_os).twice.returns(first_os_klass.target.upcase)
         assert check_nix first_os_klass
       end
     end  
@@ -73,6 +82,24 @@ class TestPlatform < Test::Unit::TestCase
       end
     end
 
+    context 'checking a group' do
+      setup do
+        @forced = mock_os_klass('force')
+        Mario::Platform.forced = @forced
+      end
+
+      should "return the os class itself when found" do
+        assert Mario::Platform.check_group([mock_os_klass, @forced, mock_os_klass]) == @forced
+      end
+      
+      should "return once if one is found in a group of classes that respond to target" do
+        assert Mario::Platform.check_group([mock_os_klass, @forced, mock_os_klass])
+      end
+
+      should "return not return one if non are found" do
+        assert !Mario::Platform.check_group([mock_os_klass, mock_os_klass])
+      end
+    end
   end
 
   def check_nix(force)
@@ -87,5 +114,11 @@ class TestPlatform < Test::Unit::TestCase
 
   def first_os_klass
     Mario::Platform.targets.first
+  end
+
+  def mock_os_klass(str='foo')
+    mock = mock('os klass')
+    mock.stubs(:target).returns(str)
+    mock
   end
 end
