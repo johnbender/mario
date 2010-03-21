@@ -20,74 +20,26 @@ module Mario
         [Windows7, WindowsNT]
       end
 
-      # The union of the {nix_group} and {windows_group} operating system class sets
+      # The union of the {nix_group} and {windows_group} operating system class sets, each operating system
+      # test method ( ie linux? ) is built from this set of class constants
       # 
       # @return [Array[Class]]
       def targets
         nix_group | windows_group
       end
 
-      # Checks if the current platform is linux
-      # 
-      # @return [true, false]
-      def linux? 
-        check Linux
-      end
-      
-      # Checks if the current platform is osx
-      # 
-      # @return [true, false]
-      def darwin?
-        check Darwin
-      end
-
-      # Checks if the current platform is solaris
-      # 
-      # @return [true, false]
-      def solaris?
-        check Solaris
-      end
-
-      # Checks if the current platform is bsd
-      #
-      # @return [true, false]
-      def bsd?
-        check BSD
-      end
-      
-      # Checks if the current platform is cygwin
-      #
-      # @return [true, false]
-      def cygwin?
-        check Cygwin
-      end
-
-      # Checks if the current platform is windows 7
-      #
-      # @return [true, false]
-      def windows7?
-        check Windows7
-      end
-      
-      # Checks if the current platform is windows nt
-      #
-      # @return [true, false]
-      def windowsnt?
-        check WindowsNT
-      end
-
       # Checks if the current platform is part of the {nix_group} and returns that class
       #
       # @return [Class]
       def nix?
-        check_group nix_group
+        check_group(nix_group)
       end
 
       # Checks if the current platform is part of the {windows_group} and returns that class
       #
       # @return [Class]
       def windows?
-        check_group windows_group
+        check_group(windows_group)
       end
 
       # Checks a list of possible operating system classes to see if their target os strings match the {target_os} value
@@ -95,16 +47,14 @@ module Mario
       # @return [Class]
       def check_group(group)
         group.each do |klass|
-          return klass if check klass
+          return klass if check(klass)
         end
         false
       end
 
-      alias_method :osx?, :darwin?
-
       # Uses the forced class target os string if provided otherwise uses the target_os rbconfig hash element
       #
-      # @return [String]
+        # @return [String]
       def target_os
         @@forced ? @@forced.target : Config::CONFIG['target_os']
       end
@@ -151,9 +101,13 @@ msg
         @@current ||= current_target_klass.new
         @@current
       end
+
+      def klass_to_method(klass)
+        klass.to_s.downcase.split('::').last
+      end
     end
 
-    # Any additional fucniontality and they should be moved to a lib/platforms/<OS>.rb
+      # Any additional functionality and they should be moved to a lib/platforms/<OS>.rb
     class Cygwin
       include Hats::Nix
       
@@ -195,7 +149,6 @@ msg
       end
     end
 
-
     class Windows7
       include Hats::Windows
 
@@ -209,6 +162,12 @@ msg
 
       def self.target
         'mswin'
+      end
+    end
+
+    targets.each do |klass|
+      define_class_method(klass_to_method(klass) + '?') do
+        check(klass)
       end
     end
   end

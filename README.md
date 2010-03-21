@@ -14,7 +14,7 @@ Or a Unix-like operating system
 
     Mario::Platform.nix?
     
-If you want to be more specific you can do that to
+If you want to be more specific you can do that too
 
     Mario::Platform.bsd? # or linux? or windows7? or darwin?
 
@@ -24,7 +24,7 @@ If for some reason you opperating system isn't represented please alert me and/o
 
 hats
 ----
-Mario has different abilities with different hats, each hat is tied to the current operating system. To start Mario can only escape file paths properly for nix operating systems and there's still testing to be done on the windows version, but there will be more to come. To make sure of Mario's version of his abilities on your platform you might do the following:
+Mario has different abilities with different hats, each hat is tied to the current operating system. To start Mario can only escape file paths properly for nix operating systems and there's still testing to be done on the windows version, but there will be more to come. To make use of Mario's version of his abilities on your platform you might do the following:
 
     Mario::Platform.current.shell_escape_path('C:\Some Path\With Some Spaces.filext')
 
