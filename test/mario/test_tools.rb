@@ -6,10 +6,12 @@ end
 
 class TestTools < Test::Unit::TestCase
   context "Mario tools" do
+    setup do
+      Mario::Platform.forced = Mario::Platform::Windows7
+    end
+
     context "platform specific instance methods" do
       setup do
-        Mario::Platform.forced = Mario::Platform::Windows7
-
         MockClass.platform :windows do
           def foo
             true
@@ -21,16 +23,35 @@ class TestTools < Test::Unit::TestCase
             true
           end
         end
+
       end
 
       should "be defined correctly for the platform" do
-        assert MockClass.new.foo
+        assert_method :foo
       end
 
       should "not be defined for other platforms" do
-        assert_raise NoMethodError do
-          MockClass.new.bar
+        assert_no_method :bar
+      end
+    end
+
+    context "platform specific instance methods from blocks" do
+      setup do
+        MockClass.platform :windows, :baz do
+          true
         end
+
+        MockClass.platform :nix, :bak do
+          true
+        end
+      end
+
+      should "be defined correctly for the platform" do
+        assert_method :baz
+      end
+
+      should "not be defined for other platforms" do
+        assert_no_method :bak
       end
     end
 
@@ -42,6 +63,16 @@ class TestTools < Test::Unit::TestCase
         Mario::Platform.forced = Mario::Platform::Darwin
         assert !MockClass.platform_value_map(map)
       end
+    end
+  end
+
+  def assert_method(method)
+    assert MockClass.new.send(method)
+  end
+
+  def assert_no_method(method)
+    assert_raise NoMethodError do
+      MockClass.new.send(method)
     end
   end
 end
