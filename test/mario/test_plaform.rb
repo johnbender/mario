@@ -1,3 +1,4 @@
+
 require 'helper'
 
 class TestPlatform < Test::Unit::TestCase
@@ -100,6 +101,40 @@ class TestPlatform < Test::Unit::TestCase
         assert !Mario::Platform.check_group([mock_os_klass, mock_os_klass])
       end
     end
+    
+    context "darwin versions" do
+      should "return true for a given darwin version when the os target string is darwin plus a number" do
+        target_postfix_darwin(10.0)
+        assert Mario::Platform.snowleopard?
+        target_postfix_darwin(9.0)
+        assert Mario::Platform.leopard?
+        target_postfix_darwin(8.0)
+        assert Mario::Platform.tiger?
+      end
+
+      should "return true for darwin if any of the darwin group classes are the current platform" do
+        Mario::Platform.darwin_group.each do |klass|
+          Mario::Platform.forced = klass
+          assert Mario::Platform.darwin?
+        end
+      end
+    end
+
+    context "checking via symbols" do
+      should "call the symbol with a question mark prefix method" do
+        Mario::Platform.expects(:windows?)
+        Mario::Platform.check_symbol(:windows)
+      end
+    end
+
+    context "operating system is not reconized" do
+      should "raise an exception" do
+        Mario::Platform.expects(:check_group).returns(false)
+        assert_raise Mario::Platform::OperatingSystemNotRecognized do
+          Mario::Platform.current
+        end
+      end
+    end
   end
 
   def check_nix(force)
@@ -120,5 +155,9 @@ class TestPlatform < Test::Unit::TestCase
     mock = mock('os klass')
     mock.stubs(:target).returns(str)
     mock
+  end
+  
+  def target_postfix_darwin(with)
+    Mario::Platform.expects(:target_os).returns("darwin#{with}")
   end
 end

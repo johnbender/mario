@@ -22,5 +22,3 @@ class Test::Unit::TestCase
     logger.stubs(:warn)
   end
 end
-
-    
