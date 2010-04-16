@@ -78,6 +78,17 @@ class TestTools < Test::Unit::TestCase
         assert_method :faz
       end
 
+      should "overwrite previous methods via blocks" do
+        MockClass.platform(:windows, :fink) { true }
+        MockClass.platform(:linux, :fink) { false }
+        assert_overwritten(:fink)
+      end
+      
+      should "overwrite previous methods" do
+        MockClass.platform(:windows) { def fizzle; true; end }
+        MockClass.platform(:linux) { def fizzle; false; end }
+        assert_overwritten(:fizzle)
+      end
     end
 
     context "platform value maps" do
@@ -99,5 +110,14 @@ class TestTools < Test::Unit::TestCase
     assert_raise NoMethodError do
       MockClass.new.send(method)
     end
+  end
+
+  def assert_overwritten(method)
+    Mario::Platform.forced = Mario::Platform::Windows7
+    MockClass.define_platform_methods!
+    assert MockClass.new.send(method)
+    Mario::Platform.forced = Mario::Platform::Linux
+    MockClass.define_platform_methods!
+    assert !MockClass.new.send(method)
   end
 end
