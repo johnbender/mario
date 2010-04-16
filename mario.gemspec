@@ -5,33 +5,36 @@
 
 Gem::Specification.new do |s|
   s.name = %q{mario}
-  s.version = "0.0.6"
+  s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["John Bender"]
-  s.date = %q{2010-03-20}
+  s.date = %q{2010-04-15}
   s.description = %q{Mario is a collection of utilities for dealing with platform specific issues}
   s.email = %q{john.m.bender@gmail.com}
   s.extra_rdoc_files = [
     "LICENSE",
-     "README.rdoc"
+     "README.md"
   ]
   s.files = [
     ".document",
      ".gitignore",
      "LICENSE",
-     "README.rdoc",
+     "README.md",
      "Rakefile",
      "VERSION",
      "lib/mario.rb",
      "lib/mario/hats/nix.rb",
      "lib/mario/hats/windows.rb",
      "lib/mario/platform.rb",
+     "lib/mario/tools.rb",
+     "lib/mario/util/object.rb",
      "mario.gemspec",
      "test/helper.rb",
      "test/mario/hats/test_nix.rb",
      "test/mario/hats/test_windows.rb",
-     "test/mario/test_plaform.rb"
+     "test/mario/test_plaform.rb",
+     "test/mario/test_tools.rb"
   ]
   s.homepage = %q{http://github.com/johnbender/mario}
   s.rdoc_options = ["--charset=UTF-8"]
@@ -42,7 +45,8 @@ Gem::Specification.new do |s|
     "test/helper.rb",
      "test/mario/hats/test_nix.rb",
      "test/mario/hats/test_windows.rb",
-     "test/mario/test_plaform.rb"
+     "test/mario/test_plaform.rb",
+     "test/mario/test_tools.rb"
   ]
 
   if s.respond_to? :specification_version then
