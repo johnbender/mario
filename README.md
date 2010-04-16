@@ -89,6 +89,8 @@ Any class defined in Mario::Platform.targets can be used as symbol for `platform
     >> Mario::Platform.targets.map{ |t| Mario::Platform.klass_to_method(t).to_sym }
     => [:cygwin, :linux, :bsd, :solaris, :tiger, :leopard, :snowleopard, :darwin, :windows7, :windowsnt]
 
+along with `:windows` and `:nix` (just as you can query for those via Mario::Platform.windows? and Mario::Platform.nix?).
+
 testing
 -------
 When testing your app you'll want to force the platform that mario reports to test your platform specific methods. In order to accomplish this make sure to defer the method definition done by the `platform` class method in the following manner.
