@@ -24,7 +24,7 @@ If for some reason you opperating system isn't represented please alert me and/o
 
 targeted methods
 ----------------
-In version 0.1 of Mario, the ability to define platform specific instance method implementations has been added via the class method `platform`. All you have to do is extend you class with `Mario::Tools`. 
+In version 0.1 of Mario, the ability to define platform specific instance method implementations has been added via the class method `platform`. All you have to do is extend your class with `Mario::Tools`. 
 
     class MyClass
       extend Mario::Tools
@@ -81,6 +81,13 @@ Sometimes you don't need an actual method and you just want to define a platform
 
     Mario::Platform.forced = Mario::Platform::Linux
     MyClass.new.my_ivar # => 'Linux!'
+
+platform symbol values
+----------------------
+Any class defined in Mario::Platform.targets can be used as symbol for `platform` and `platform_value_map` to target a given platform. The following are supported as of version 0.1
+
+    >> Mario::Platform.targets.map{ |t| Mario::Platform.klass_to_method(t).to_sym }
+    => [:cygwin, :linux, :bsd, :solaris, :tiger, :leopard, :snowleopard, :darwin, :windows7, :windowsnt]
 
 testing
 -------
