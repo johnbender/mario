@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{mario}
-  s.version = "0.1.0"
+  s.version = "0.1.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["John Bender"]
-  s.date = %q{2010-04-15}
+  s.date = %q{2010-04-16}
   s.description = %q{Mario is a collection of utilities for dealing with platform specific issues}
   s.email = %q{john.m.bender@gmail.com}
   s.extra_rdoc_files = [
