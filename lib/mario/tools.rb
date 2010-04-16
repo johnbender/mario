@@ -1,6 +1,6 @@
 module Mario
   module Tools
-    @@method_blocks = {}
+    @@class_method_blocks = {}
     @@defer_method_definition = false
         
     def defer_method_definition
@@ -18,8 +18,9 @@ module Mario
     module_function :defer_method_definition, :defer_method_definition=, :defer_method_definition!
   
     def platform(name, method=nil, &block)
-      @@method_blocks[name] = method ? [ method , block ] : block
-      define_platform_methods! if !defer_method_definition
+      @@class_method_blocks[self] ||= {}
+      @@class_method_blocks[self][name] = method ? [ method , block ] : block
+      define_platform_methods! unless defer_method_definition
     end
     
     def platform_value_map(map={})
@@ -29,7 +30,7 @@ module Mario
     end
     
     def define_platform_methods!
-      @@method_blocks.each do |name, value|
+      @@class_method_blocks[self].each do |name, value|
         if Platform.check_symbol(name)
           if value.is_a?(Proc)
             self.class_eval &value 

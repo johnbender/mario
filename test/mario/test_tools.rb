@@ -59,6 +59,27 @@ class TestTools < Test::Unit::TestCase
           AlternateMockClass.new.fik
         end
       end
+
+      should "not define methods on seperate classes from different platforms" do
+        # Note requires new classes for testing this particular case
+        class MyClass
+          extend Mario::Tools
+          platform :windows, :foo do
+            puts "foo"
+          end
+        end
+        
+        class MyClass2
+          extend Mario::Tools
+          platform :darwin, :foo do
+            puts "foo"
+          end
+        end
+
+        assert_raise NoMethodError do
+          MyClass2.new.foo
+        end
+      end
     end
 
     context "deferred addition of methods" do
