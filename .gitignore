@@ -20,8 +20,6 @@ pkg
 
 ## PROJECT::SPECIFIC
 vendor
-Gemfile
-Gemfile.lock
 .bundle
 *.gem
 doc
