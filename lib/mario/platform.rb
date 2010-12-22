@@ -5,14 +5,14 @@ module Mario
     @@current = nil
 
     class << self
-      
+
       # A list of unix like operating system classes
       #
       # @return [Array[Class]]
       def nix_group
         [Cygwin, Linux, BSD, Solaris] + darwin_group
       end
-      
+
       # A list of windows operating system classes
       #
       # @return [Array[Class]]
@@ -31,7 +31,7 @@ module Mario
 
       # The union of the {nix_group} and {windows_group} operating system class sets, each operating system
       # test method ( ie linux? ) is built from this set of class constants
-      # 
+      #
       # @return [Array[Class]]
       def targets
         nix_group | windows_group
@@ -52,7 +52,7 @@ module Mario
       end
 
       # Checks if the current platform is part of the {darwin_group} and returns that class
-      # 
+      #
       # @return [Class]
       def darwin?
         check_group(darwin_group)
@@ -72,7 +72,7 @@ module Mario
       #
         # @return [String]
       def target_os
-        @@forced ? @@forced.target : Config::CONFIG['target_os']
+        @@forced ? @@forced.target : RbConfig::CONFIG['target_os']
       end
 
       # Checks an os class against {target_os}
@@ -91,7 +91,7 @@ module Mario
 Mario::Platform.target_os will now report as '#{target_os}' and #{klass} will be used for all functionality including operating system checks, platform blocks, and hat based functionality
 msg
       end
-      
+
       # Returns the value of the currently forced operating system class if any
       #
       # @return [Class]
@@ -128,7 +128,7 @@ msg
       def klass_to_method(klass)
         klass.to_s.downcase.split('::').last
       end
-      
+
       def check_symbol(name)
         send(name.to_s + '?')
       end
@@ -137,16 +137,16 @@ msg
     # NOTE Any additional functionality and they should be moved to a lib/platforms/<OS>.rb
     class Cygwin
       include Hats::Nix
-      
+
       def self.target
         'cygwin'
       end
     end
 
-    class Darwin    
+    class Darwin
       include Hats::Nix
 
-      def self.target 
+      def self.target
         'darwin'
       end
     end
@@ -179,7 +179,7 @@ msg
 
     class BSD
       include Hats::Nix
-  
+
       def self.target
         'bsd'
       end
