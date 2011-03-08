@@ -23,4 +23,5 @@ vendor
 .bundle
 *.gem
 doc
+Gemfile.lock
 .yardoc
