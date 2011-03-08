@@ -1,6 +1,7 @@
 module Mario
   autoload :Platform, "mario/platform"
   autoload :Tools, "mario/tools"
+  autoload :VERSION, "mario/version"
 
   module Hats
     autoload :Nix, "mario/hats/nix"
