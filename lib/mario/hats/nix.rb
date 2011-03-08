@@ -2,9 +2,8 @@
 module Mario
   module Hats
     module Nix
-      
       # Escapes paths for use in execute statements
-      # 
+      #
       # @param [String]
       # @return [String]
       def shell_escape_path(str)

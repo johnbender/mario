@@ -1,3 +1,7 @@
+require "rbconfig"
+require "logger"
+require "mario/util/object"
+
 module Mario
   class Platform
     @@forced = nil
